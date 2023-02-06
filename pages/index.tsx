@@ -1,12 +1,28 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from '@/styles/Home.module.css'
-import { UploadUi } from '@/components/upload'
+import Head from "next/head";
+import Image from "next/image";
+import { Inter } from "@next/font/google";
+import styles from "@/styles/Home.module.css";
+import { UploadUi } from "@/components/upload";
+import { CollegeUi } from "@/components/college";
+import { useState } from "react";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const [images, updateImages] = useState<
+    {
+      url: string;
+      name: string;
+      mime: string;
+    }[]|null
+  >(null);
+
+  if (images === null) {
+    fetch(`/api/list-files`).then((res) => res.json()).then((data) => {
+      updateImages(data);
+    })
+  }
+
   return (
     <>
       <Head>
@@ -16,9 +32,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <UploadUi tokenUuid='234567890'/>
-        {/* <College /> */}
+        <UploadUi tokenUuid="234567890" />
+        <CollegeUi images={images || []} />
       </main>
     </>
-  )
+  );
 }
