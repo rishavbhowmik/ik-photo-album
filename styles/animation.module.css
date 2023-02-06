@@ -1,0 +1,12 @@
+@keyframes rt-animation {
+    0% {
+        transform: rotateZ(0deg);
+    }
+    100% {
+        transform: rotateZ(360deg);
+    }
+}
+
+.rt {
+    animation: 2s rt-animation infinite;
+}
